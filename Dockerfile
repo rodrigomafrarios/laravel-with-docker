@@ -7,7 +7,7 @@ WORKDIR /var/www
 #removes html path
 RUN rm -rf /var/www/html
 
-RUN sudo curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
 #RUN composer-install && \
  #   cp .env.example .env && \
@@ -15,13 +15,16 @@ RUN sudo curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/l
    # php artisan config:cache
 
 
-#copying all files
-COPY . /var/www
-
 #symbolic link from public to html
 RUN ln -s public html
 
-#EXPOSE 9000
+#copying all files
+COPY . /var/www
+
+RUN php artisan key:generate && \
+    php artisan config:cache && \
+    php artisan migrate && \
+    chown -R www-data:www-data storage/
 
 ENTRYPOINT ["php-fpm"]
 

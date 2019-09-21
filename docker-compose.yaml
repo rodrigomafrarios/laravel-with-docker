@@ -1,6 +1,19 @@
-version: "3"
+version: "2.3"
 
 services:
+  app:
+    build: .
+    container_name: app
+    volumes:
+      - .:/var/www
+    expose:
+      - 9000
+    networks:
+      - app_network
+    depends_on:
+      db:
+        condition: service_healthy
+
   nginx:
     build: .docker/nginx
     container_name: nginx
@@ -20,21 +33,19 @@ services:
     tty: true
     ports:
       - "3306:3306"
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=laravel
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=root
     networks:
       - app_network
-  app:
-    build: .
-    container_name: app
-    volumes:
-      - .:/var/www
-    expose:
-      - 9000
-    networks:
-      - app_network
+    healthcheck:
+      test: ["CMD-SHELL",'mysql -u root --database=laravel --password=root --execute="SELECT COUNT(table_name) > 0 FROM information_schema.tables;" --skip-column-names -B']
+      interval: 10s
+      timeout: 10s
+      retries: 4
   redis:
     image: redis:alpine
     expose:
