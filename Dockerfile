@@ -25,7 +25,7 @@ COPY . /var/www
 RUN apk add --no-cache npm
 
 FROM php:7.3.6-fpm-alpine3.9
-RUN apk add --no-cache mysql-client
+RUN apk add bash --no-cache mysql-client
 RUN docker-php-ext-install pdo pdo_mysql
 
 WORKDIR /var/www
