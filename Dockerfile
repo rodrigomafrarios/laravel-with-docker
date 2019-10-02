@@ -24,17 +24,17 @@ COPY . /var/www
 
 RUN apk add --no-cache npm
 
-FROM php:7.3.6-fpm-alpine3.9
-RUN apk add bash --no-cache mysql-client
-RUN docker-php-ext-install pdo pdo_mysql
+#FROM php:7.3.6-fpm-alpine3.9
+#RUN apk add bash --no-cache mysql-client
+#RUN docker-php-ext-install pdo pdo_mysql
 
-WORKDIR /var/www
+#WORKDIR /var/www
 
 #removes html path
-RUN rm -rf /var/www/html
+#RUN rm -rf /var/www/html
 
 #create an brand new image
-COPY --from=builder /var/www .
+#COPY --from=builder /var/www .
 
 ENTRYPOINT ["php-fpm"]
 
