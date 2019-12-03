@@ -13,8 +13,6 @@ WORKDIR /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
-RUN composer install
-
 #removes html path
 RUN rm -rf /var/www/html
 
