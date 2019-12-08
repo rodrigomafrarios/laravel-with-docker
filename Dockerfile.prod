@@ -11,8 +11,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #removes html path
 RUN rm -rf /var/www/html
 
-RUN chmod 777 /var/www/storage -R
-
 #symbolic link from public to html
 RUN ln -s public html
 
