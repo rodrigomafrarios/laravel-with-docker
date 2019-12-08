@@ -38,7 +38,7 @@ steps:
 
 - id: "Adjusting deployment file - k8s"
   name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'sh'
+  entrypoint: '/bin/sh'
   args:
     - '-c'
     - |
