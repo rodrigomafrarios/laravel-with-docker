@@ -18,6 +18,8 @@ RUN ln -s public html
 #copying all files
 COPY . /var/www
 
+RUN chmod 777 -R storage/
+
 EXPOSE 9000
 ENTRYPOINT ["php-fpm"]
 
