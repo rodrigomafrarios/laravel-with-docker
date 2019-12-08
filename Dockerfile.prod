@@ -1,0 +1,22 @@
+FROM php:7.3.6-fpm-alpine3.9 as builder
+RUN apk add bash mysql-client
+RUN docker-php-ext-install pdo pdo_mysql
+
+RUN apk add --no-cache openssl
+
+WORKDIR /var/www
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+
+#removes html path
+RUN rm -rf /var/www/html
+
+#symbolic link from public to html
+RUN ln -s public html
+
+#copying all files
+COPY . /var/www
+
+EXPOSE 9000
+ENTRYPOINT ["php-fpm"]
+
