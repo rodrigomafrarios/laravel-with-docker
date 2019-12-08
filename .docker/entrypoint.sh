@@ -1,6 +1,6 @@
 #! /bin/bash
 chown -R www-data:www-data storage
-chmod -R storage
+chmod 777 -R storage
 composer.phar install
 php artisan migrate
 php artisan key:generate
